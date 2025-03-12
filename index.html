@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automated Fire Alert System</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts: Space Grotesk -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    /* Hero Section */
+    .hero {
+      background: url('https://source.unsplash.com/1600x900/?fire,emergency') center center/cover no-repeat;
+      color: #fff;
+      padding: 150px 0;
+      text-align: center;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .cta-btn {
+      font-size: 1.25rem;
+      padding: 0.75rem 2rem;
+    }
+    /* Footer */
+    footer {
+      background-color: #343a40;
+      color: #ddd;
+      padding: 20px 0;
+    }
+    footer a {
+      color: #ddd;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      color: #fff;
+    }
+  </style>
+  
+  <!-- Firebase Config -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need 
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBNaGEyujkZ85znKRXLqJOhD0yOR3GM9pE",
+      authDomain: "fir-eaef9.firebaseapp.com",
+      projectId: "fir-eaef9",
+      storageBucket: "fir-eaef9.firebasestorage.app",
+      messagingSenderId: "437370217594",
+      appId: "1:437370217594:web:e16fb56996d45b988807c3",
+      measurementId: "G-1VHVSL6DEX"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fa-solid fa-fire-flame-curved"></i> Fire Alert
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarsExample07">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="authentication.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Live Map</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <h1 class="display-4 fw-bold">Automated Fire Alert System</h1>
+      <p class="lead mb-4">Leverage cutting-edge technology to track real-time locations and enable rapid emergency responses.</p>
+      <button id="triggerAlert" class="btn btn-danger cta-btn">
+        <i class="fa-solid fa-bell"></i> Trigger Alert
+      </button>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="text-center" style="margin-bottom: 0;">
+    <div class="container">
+      <p class="mb-2">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-solid fa-envelope"></i></a>
+      </p>
+      <p>&copy; 2025 Automated Fire Alert System. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <!-- Bootstrap Bundle with Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JavaScript for Alert Trigger -->
+  <script>
+    document.getElementById('triggerAlert').addEventListener('click', function() {
+      // Example: Capture current timestamp and show an alert.
+      // Later, you can integrate this with Firebase to log the alert.
+      const timestamp = new Date().toLocaleString();
+      alert("Fire Alert Triggered at " + timestamp);
+      
+      // TODO: Add functionality to get GPS data and send alert info to Firebase.
+    });
+  </script>
+</body>
+</html>
