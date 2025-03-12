@@ -10,6 +10,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <!-- Google Fonts: Space Grotesk -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: 'Space Grotesk', sans-serif;
@@ -69,7 +70,7 @@
     const auth = getAuth(app);
     const database = getDatabase(app);
 
-    // Expose for use in inline scripts
+    // Expose for inline scripts
     window.auth = auth;
     window.database = database;
   </script>
@@ -82,7 +83,6 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
         <span class="navbar-toggler-icon"></span>
       </button>
-  
       <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
@@ -103,7 +103,7 @@
         <!-- <img id="profilePic" src="https://via.placeholder.com/80" alt="Profile Picture" class="rounded-circle me-3" width="80" height="80"> -->
         <div>
           <h4 id="userName">User Name</h4>
-          <p id="userEmail" class="mb-0">user@example.com</p>
+          <p id="userEmail" class="mb-0">loading</p>
         </div>
       </div>
       <div class="mt-3">
@@ -132,48 +132,66 @@
 
     const userNameEl = document.getElementById('userName');
     const userEmailEl = document.getElementById('userEmail');
-    const profilePicEl = document.getElementById('profilePic');
+    // If you want a profile pic, add an img in the HTML and uncomment below:
+    // const profilePicEl = document.getElementById('profilePic');
+
     const alertsListEl = document.getElementById('alertsList');
     const triggerNewAlertBtn = document.getElementById('triggerNewAlert');
 
-    // Check for an authenticated user
+    // Check for authenticated user and load profile & alerts
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // Display user info
         userNameEl.textContent = user.displayName || "Anonymous User";
         userEmailEl.textContent = user.email;
-        if (user.photoURL) {
-          profilePicEl.src = user.photoURL;
-        }
-        // Load recent alerts (assumes alerts are stored under "alerts/" with a timestamp and message)
-        const alertsRef = ref(database, 'alerts/');
+        // if (user.photoURL) { profilePicEl.src = user.photoURL; }
+
+        // Load recent alerts from Firebase Realtime Database
+        const alertsRef = ref(database, 'fireAlerts/');
         onValue(alertsRef, (snapshot) => {
           const data = snapshot.val();
           alertsListEl.innerHTML = "";
           if (data) {
-            // Sort alerts by timestamp in descending order
-            const alertsArray = Object.values(data).sort((a, b) => b.timestamp - a.timestamp);
-            alertsArray.forEach(alert => {
-              const div = document.createElement('div');
-              div.classList.add('alert-item');
-              div.innerHTML = `<strong>${new Date(alert.timestamp).toLocaleString()}</strong>: ${alert.message || "No message"}`;
-              alertsListEl.appendChild(div);
+            // Convert alerts object to array and sort by timestamp descending
+            const alertsArray = Object.entries(data).sort(
+              ([, a], [, b]) => new Date(b.timestamp) - new Date(a.timestamp)
+            );
+
+            alertsArray.forEach(([key, alert]) => {
+              // Build HTML to include timestamp, location, fireType, severity, and notes
+              const alertHTML = `
+                <div class="alert-item">
+                  <strong>Timestamp:</strong> 
+                    ${alert.timestamp 
+                      ? new Date(alert.timestamp).toLocaleString() 
+                      : "No timestamp"}
+                  <br>
+                  <strong>Location:</strong> 
+                    (${alert.latitude || "N/A"}, ${alert.longitude || "N/A"})
+                  <br>
+                  <strong>Fire Type:</strong> 
+                    ${alert.fireType || "Unknown"}
+                  <br>
+                  <strong>Severity:</strong> 
+                    ${alert.severity || "N/A"}
+                  <br>
+                  <strong>Notes:</strong> 
+                    ${alert.notes || "No notes provided"}
+                </div>
+              `;
+              alertsListEl.innerHTML += alertHTML;
             });
           } else {
             alertsListEl.innerHTML = "<p>No recent alerts.</p>";
           }
         });
       } else {
-        // If no user is logged in, redirect to login page
+        // Redirect to login if no user is logged in
         window.location.href = "login.html";
       }
     });
-    
-    // Quick access: Trigger new alert (demo function)
+    // Trigger new alert button (redirect to new alert creation page)
     triggerNewAlertBtn.addEventListener('click', () => {
-      // In production, you'd capture location data and alert details before saving to Firebase.
-      alert("New alert triggered! (Functionality to be implemented)");
-      // Optionally, redirect to a dedicated 'new alert' page:
       window.location.href = "new-alert.html";
     });
   </script>

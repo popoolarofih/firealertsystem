@@ -20,7 +20,7 @@
     }
     /* Hero Section */
     .hero {
-      background: url('https://source.unsplash.com/1600x900/?fire,emergency') center center/cover no-repeat;
+      background: url('./3108.jpg') center center/cover no-repeat;
       color: #fff;
       padding: 150px 0;
       text-align: center;
@@ -61,22 +61,55 @@
   
   <!-- Firebase Config -->
   <script type="module">
-    // Import the functions you need from the SDKs you need 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
-    // Your web app's Firebase configuration
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyBNaGEyujkZ85znKRXLqJOhD0yOR3GM9pE",
       authDomain: "fir-eaef9.firebaseapp.com",
       projectId: "fir-eaef9",
-      storageBucket: "fir-eaef9.firebasestorage.app",
+      storageBucket: "fir-eaef9.appspot.com",
       messagingSenderId: "437370217594",
       appId: "1:437370217594:web:e16fb56996d45b988807c3",
       measurementId: "G-1VHVSL6DEX"
     };
+
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('triggerAlert').addEventListener('click', async function() {
+        const timestamp = new Date().toISOString();
+        
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(async (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Save alert to Firebase Firestore
+            try {
+              await addDoc(collection(db, "fire_alerts"), {
+                timestamp: timestamp,
+                location: { latitude, longitude }
+              });
+
+              alert(`🔥 Fire Alert Triggered!\nLocation: (${latitude}, ${longitude})`);
+            } catch (error) {
+              console.error("Error storing alert: ", error);
+              alert("Error saving alert. Check console for details.");
+            }
+
+          }, (error) => {
+            console.error("Geolocation Error: ", error);
+            alert("Unable to fetch location. Try again.");
+          });
+
+        } else {
+          alert("Geolocation is not supported by your browser.");
+        }
+      });
+    });
   </script>
 </head>
 <body>
@@ -84,7 +117,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand" href="#">
-        <i class="fa-solid fa-fire-flame-curved"></i> Fire Alert
+        <i class="fa-solid fa-fire-flame-curved"></i> Fire Alert Syste
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -92,11 +125,11 @@
   
       <div class="collapse navbar-collapse" id="navbarsExample07">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="authentication.html">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Live Map</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+          <li class="nav-item"><a class="nav-link" href="live-map.html">Live Map</a></li>
+          <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html">Help</a></li>
         </ul>
       </div>
     </div>
@@ -125,19 +158,7 @@
       <p>&copy; 2025 Automated Fire Alert System. All rights reserved.</p>
     </div>
   </footer>
-  
   <!-- Bootstrap Bundle with Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Custom JavaScript for Alert Trigger -->
-  <script>
-    document.getElementById('triggerAlert').addEventListener('click', function() {
-      // Example: Capture current timestamp and show an alert.
-      // Later, you can integrate this with Firebase to log the alert.
-      const timestamp = new Date().toLocaleString();
-      alert("Fire Alert Triggered at " + timestamp);
-      
-      // TODO: Add functionality to get GPS data and send alert info to Firebase.
-    });
-  </script>
 </body>
 </html>
