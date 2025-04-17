@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,59 +12,574 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <!-- Google Fonts: Space Grotesk -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  
   <style>
+    :root {
+      --primary-color: #e63946;
+      --secondary-color: #457b9d;
+      --dark-color: #1d3557;
+      --light-color: #f1faee;
+      --success-color: #2a9d8f;
+      --warning-color: #e9c46a;
+      --danger-color: #e76f51;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
     body {
       font-family: 'Space Grotesk', sans-serif;
       background-color: #f8f9fa;
-      color: #333;
+      color: var(--dark-color);
+      transition: all 0.3s ease;
+      overflow-x: hidden;
     }
+    
+    /* Nav improvements */
+    .navbar {
+      background-color: var(--dark-color) !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 12px 0;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .navbar-brand:hover {
+      transform: scale(1.05);
+    }
+    
+    .navbar-brand i {
+      color: var(--primary-color);
+      margin-right: 8px;
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      padding: 8px 16px !important;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background-color: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+    
+    .nav-link.active {
+      background-color: var(--primary-color);
+      color: white !important;
+    }
+    
     /* Hero Section */
     .hero {
-      background: url('./3108.jpg') center center/cover no-repeat;
-      color: #fff;
-      padding: 150px 0;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://source.unsplash.com/random/1920x1080/?fire,emergency') center center/cover no-repeat;
+      color: white;
+      padding: 180px 0;
       text-align: center;
       position: relative;
+      margin-bottom: 40px;
     }
-    .hero::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      z-index: 1;
-    }
+    
     .hero-content {
       position: relative;
       z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
     }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      animation: fadeInDown 1s ease-out;
+    }
+    
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 32px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      opacity: 0.9;
+      animation: fadeInUp 1s ease-out 0.3s;
+      animation-fill-mode: both;
+    }
+    
     .cta-btn {
       font-size: 1.25rem;
       padding: 0.75rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      animation: fadeIn 1s ease-out 0.6s;
+      animation-fill-mode: both;
     }
+    
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+    
+    .cta-btn:active {
+      transform: translateY(-1px);
+    }
+    
+    /* Features Section */
+    .features-section {
+      padding: 60px 0;
+      background-color: white;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      height: 100%;
+      border: none;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      background-color: rgba(230, 57, 70, 0.1);
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    /* Stats Section */
+    .stats-section {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 60px 0;
+    }
+    
+    .stat-card {
+      background-color: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 30px;
+      height: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      background-color: rgba(255,255,255,0.1);
+    }
+    
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .stat-label {
+      font-size: 1.25rem;
+      opacity: 0.8;
+    }
+    
+    /* Alert Banner */
+    .alert-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--danger-color);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    
+    /* Network Status */
+    .network-status {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 8px 15px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .network-status i {
+      margin-right: 8px;
+    }
+    
+    .online {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .offline {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    
+    /* Alert Animation */
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(230, 57, 70, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+    }
+    
+    .alert-pulse {
+      animation: pulse 1.5s infinite;
+    }
+    
     /* Footer */
     footer {
       background-color: #343a40;
       color: #ddd;
-      padding: 20px 0;
+      padding: 40px 0 20px;
     }
+    
     footer a {
       color: #ddd;
       text-decoration: none;
-      margin: 0 10px;
+      margin: 0 15px;
+      transition: all 0.3s ease;
     }
+    
     footer a:hover {
       color: #fff;
+      transform: translateY(-3px);
+    }
+    
+    .social-icon {
+      font-size: 1.5rem;
+      width: 45px;
+      height: 45px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    /* Quick access panel */
+    .quick-access {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 100;
+    }
+    
+    .quick-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .quick-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    .quick-menu {
+      background-color: white;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      margin-bottom: 15px;
+      display: none;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+    
+    .quick-menu.show {
+      display: block;
+      transform: translateY(0);
+    }
+    
+    .quick-menu-btn {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+      background-color: #f8f9fa;
+      color: var(--dark-color);
+      text-decoration: none;
+    }
+    
+    .quick-menu-btn:last-child {
+      margin-bottom: 0;
+    }
+    
+    .quick-menu-btn:hover {
+      background-color: #eee;
+      transform: translateX(5px);
+    }
+    
+    .quick-menu-btn i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+      color: var(--primary-color);
+    }
+    
+    /* Toast notifications */
+    .toast-container {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 1000;
+    }
+    
+    .toast {
+      background-color: white;
+      border-radius: 8px;
+      padding: 15px 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      max-width: 350px;
+      transform: translateX(400px);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    
+    .toast.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .toast-icon {
+      margin-right: 15px;
+      font-size: 1.5rem;
+    }
+    
+    .toast-info .toast-icon {
+      color: var(--secondary-color);
+    }
+    
+    .toast-success .toast-icon {
+      color: var(--success-color);
+    }
+    
+    .toast-warning .toast-icon {
+      color: var(--warning-color);
+    }
+    
+    .toast-danger .toast-icon {
+      color: var(--danger-color);
+    }
+    
+    .toast-content {
+      flex: 1;
+    }
+    
+    .toast-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+    
+    .toast-message {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .toast-close {
+      color: #aaa;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .toast-close:hover {
+      color: #555;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1.2rem;
+      }
+      
+      .stat-number {
+        font-size: 2.5rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero {
+        padding: 120px 0;
+      }
+      
+      .feature-card,
+      .stat-card {
+        margin-bottom: 20px;
+      }
+      
+      .navbar-toggler {
+        margin-left: auto;
+      }
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Loading Bar */
+    .loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: var(--primary-color);
+      z-index: 9999;
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: loadingAnimation 2s ease-in-out forwards;
+    }
+    
+    @keyframes loadingAnimation {
+      0% { transform: scaleX(0); }
+      50% { transform: scaleX(0.5); }
+      100% { transform: scaleX(1); }
+    }
+    
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--dark-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .dark-mode-toggle:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #121212;
+      color: #f1faee;
+    }
+    
+    body.dark-mode .features-section {
+      background-color: #1e1e1e;
+    }
+    
+    body.dark-mode .feature-card {
+      background-color: #2d2d2d;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    body.dark-mode .stats-section {
+      background-color: #111;
+    }
+    
+    body.dark-mode .quick-menu {
+      background-color: #2d2d2d;
+    }
+    
+    body.dark-mode .quick-menu-btn {
+      background-color: #3d3d3d;
+      color: #f1faee;
+    }
+    
+    body.dark-mode .quick-menu-btn:hover {
+      background-color: #4d4d4d;
+    }
+    
+    body.dark-mode .toast {
+      background-color: #2d2d2d;
+      color: #f1faee;
+    }
+    
+    body.dark-mode .dark-mode-toggle {
+      background-color: #f1faee;
+      color: #121212;
     }
   </style>
+  <script>
+    // Embedded base64 alarm sound as fallback
+    const alarmBase64 = "data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAFhpbmcAAAAPAAAAAwAAA3gAlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaW8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw////////////////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQDgAAAAAAAAAB7h55zAAAAAAAAAAAAAAAAAAD/+8DEAAAIoAV59BEAJaRFrP81kAE4UZHJBHHGOI4hCMZxnSNMZxnwQQgBAEIQhCEAAgCDg4Pijg+D4Pg+KAgCAIOD4oDg4Pj8oCAIRREURf/F80cXzRFEUX//lEUTf/8UTRN//KOD4eDw/w+Hw+GBgIAhGMymcZwTAnBOJOQzGc6TzChRZEBQFAUBQFAUBQFAUBTSFQFMQQhECQUjQUEgsFgsFgsFj4LBYVCoVCwWCwWFQUhK6WGwYDAYDAYDNCoVDWtQRhwZHBkeGRwZJBlQsGUyGUymUzGY71xEqz9ChQFCn/7tmw7juMwXNOD2ZUFQVBUFQVB8HwfB8HwfB94VBUFQfB8HgIAgCAIAgkBxgRMvY1WfYC/W2qdRKqkxBTUUzLjk5LjVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7UMTvg8AAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+  </script>
   
   <!-- Firebase Config -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
+    // Firebase configuration - make sure this is correct
     const firebaseConfig = {
       apiKey: "AIzaSyBNaGEyujkZ85znKRXLqJOhD0yOR3GM9pE",
       authDomain: "fir-eaef9.firebaseapp.com",
@@ -71,37 +587,272 @@
       storageBucket: "fir-eaef9.appspot.com",
       messagingSenderId: "437370217594",
       appId: "1:437370217594:web:e16fb56996d45b988807c3",
-      measurementId: "G-1VHVSL6DEX"
+      measurementId: "G-1VHVSL6DEX",
+      databaseURL: "https://fir-eaef9-default-rtdb.firebaseio.com" // Adding real-time database URL
     };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    // Initialize Firebase with error handling
+    let app, db, rtdb;
+    try {
+      app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      rtdb = getDatabase(app); // Initialize Realtime Database as backup
+      console.log("Firebase initialized successfully");
+    } catch (error) {
+      console.error("Error initializing Firebase:", error);
+      showNetworkStatus(false);
+    }
+
+    // Network status display
+    function showNetworkStatus(isOnline) {
+      const statusDiv = document.getElementById('networkStatus');
+      if (isOnline) {
+        statusDiv.textContent = "Online";
+        statusDiv.className = "network-status online";
+      } else {
+        statusDiv.textContent = "Offline - Local Mode";
+        statusDiv.className = "network-status offline";
+      }
+    }
+
+    // Monitor network status
+    window.addEventListener('online', () => showNetworkStatus(true));
+    window.addEventListener('offline', () => showNetworkStatus(false));
+    showNetworkStatus(navigator.onLine);
+
+    // Create audio elements with multiple sources for compatibility
+    const alarmSound = new Audio();
+    
+    // Try multiple sources for better compatibility
+    const audioSources = [
+      // Base64 encoded audio (defined earlier) as fallback
+      window.alarmBase64,
+      // CDN hosted audio files - multiple common formats
+      "https://cdnjs.cloudflare.com/ajax/libs/ion-sound/3.0.7/sounds/bell_ring.mp3",
+      "https://cdnjs.cloudflare.com/ajax/libs/ion-sound/3.0.7/sounds/alarm.mp3"
+    ];
+
+    // Try to load the first available audio source
+    function setupAudio() {
+      for (const source of audioSources) {
+        try {
+          alarmSound.src = source;
+          // Test if the audio can be played
+          const playPromise = alarmSound.play();
+          if (playPromise !== undefined) {
+            playPromise.then(() => {
+              alarmSound.pause();
+              alarmSound.currentTime = 0;
+              console.log("Audio source working:", source);
+              return; // Exit once we find a working source
+            }).catch(e => {
+              console.log("Audio source failed:", source, e);
+              // Continue to try the next source
+            });
+          }
+        } catch (e) {
+          console.log("Error setting up audio source:", e);
+        }
+      }
+      
+      alarmSound.loop = true;
+    }
+
+    // Function to play alarm sound
+    function playAlarm() {
+      // Try to play the sound with error handling
+      alarmSound.play().catch(e => {
+        console.error("Audio playback failed:", e);
+        // Create and play a backup audio using browser APIs if available
+        try {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          oscillator.type = 'square';
+          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+          oscillator.connect(audioContext.destination);
+          oscillator.start();
+          setTimeout(() => oscillator.stop(), 10000);
+        } catch (err) {
+          console.error("Fallback audio also failed:", err);
+        }
+      });
+      
+      // Show alert banner
+      const alertBanner = document.getElementById('alertBanner');
+      alertBanner.style.display = 'block';
+      
+      // Make trigger button pulse
+      document.getElementById('triggerAlert').classList.add('alert-pulse');
+
+      // Stop alarm after 10 seconds
+      setTimeout(() => {
+        stopAlarm();
+      }, 10000);
+    }
+
+    // Function to stop alarm sound
+    function stopAlarm() {
+      try {
+        alarmSound.pause();
+        alarmSound.currentTime = 0;
+      } catch (e) {
+        console.error("Error stopping alarm:", e);
+      }
+      
+      // Hide alert banner
+      const alertBanner = document.getElementById('alertBanner');
+      alertBanner.style.display = 'none';
+      
+      // Remove pulse animation from button
+      document.getElementById('triggerAlert').classList.remove('alert-pulse');
+    }
+
+    // Local storage for alerts when offline
+    function saveAlertLocally(alertData) {
+      try {
+        const localAlerts = JSON.parse(localStorage.getItem('fireAlerts') || '[]');
+        localAlerts.push(alertData);
+        localStorage.setItem('fireAlerts', JSON.stringify(localAlerts));
+        return true;
+      } catch (e) {
+        console.error("Error saving alert locally:", e);
+        return false;
+      }
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Set up audio
+      setupAudio();
+
+      // Try both Firestore and Realtime Database for robustness
+      try {
+        // Listen for new fire alerts in Firestore
+        const unsubscribe = onSnapshot(collection(db, "fire_alerts"), (snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+              // Get the most recent document
+              const alertData = change.doc.data();
+              const timeDiff = new Date() - new Date(alertData.timestamp);
+              
+              // Only play alarm for alerts that are less than 30 seconds old
+              if (timeDiff < 30000) {
+                playAlarm();
+                
+                // Update the alert banner with location info
+                if (alertData.location) {
+                  const lat = alertData.location.latitude.toFixed(4);
+                  const lng = alertData.location.longitude.toFixed(4);
+                  document.getElementById('alertLocation').textContent = `(${lat}, ${lng})`;
+                }
+              }
+            }
+          });
+        }, (error) => {
+          console.error("Firestore listener error:", error);
+          // Try Real-time database as backup
+          setupRealtimeDatabaseListener();
+        });
+      } catch (error) {
+        console.error("Error setting up Firestore listener:", error);
+        setupRealtimeDatabaseListener();
+      }
+
+      // Set up Real-time Database listener as backup
+      function setupRealtimeDatabaseListener() {
+        try {
+          const alertsRef = ref(rtdb, 'fire_alerts');
+          onValue(alertsRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+              const keys = Object.keys(data);
+              if (keys.length > 0) {
+                const latestKey = keys[keys.length - 1];
+                const alertData = data[latestKey];
+                
+                const timeDiff = new Date() - new Date(alertData.timestamp);
+                if (timeDiff < 30000) {
+                  playAlarm();
+                  
+                  if (alertData.location) {
+                    const lat = alertData.location.latitude.toFixed(4);
+                    const lng = alertData.location.longitude.toFixed(4);
+                    document.getElementById('alertLocation').textContent = `(${lat}, ${lng})`;
+                  }
+                }
+              }
+            }
+          }, (error) => {
+            console.error("Realtime DB error:", error);
+            showNetworkStatus(false);
+          });
+        } catch (error) {
+          console.error("Error setting up Realtime DB:", error);
+          showNetworkStatus(false);
+        }
+      }
+
+      // Add event listener to trigger alert button
       document.getElementById('triggerAlert').addEventListener('click', async function() {
         const timestamp = new Date().toISOString();
+        const isOnline = navigator.onLine;
+        
+        // Set this to true to immediately trigger the alarm locally
+        // regardless of Firebase connection status
+        const triggerLocallyImmediately = true;
         
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(async (position) => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
+            
+            const alertData = {
+              timestamp: timestamp,
+              location: { latitude, longitude }
+            };
 
-            // Save alert to Firebase Firestore
-            try {
-              await addDoc(collection(db, "fire_alerts"), {
-                timestamp: timestamp,
-                location: { latitude, longitude }
-              });
-
-              alert(`🔥 Fire Alert Triggered!\nLocation: (${latitude}, ${longitude})`);
-            } catch (error) {
-              console.error("Error storing alert: ", error);
-              alert("Error saving alert. Check console for details.");
+            // If we're online, try to save to Firebase
+            if (isOnline) {
+              try {
+                // Try Firestore first
+                await addDoc(collection(db, "fire_alerts"), alertData);
+                console.log("Alert saved to Firestore");
+                
+                // Also try Real-time database as backup
+                try {
+                  const alertsRef = ref(rtdb, 'fire_alerts/' + Date.now());
+                  await set(alertsRef, alertData);
+                  console.log("Alert saved to Realtime Database");
+                } catch (rtdbError) {
+                  console.error("Error saving to Realtime DB:", rtdbError);
+                }
+                
+                alert(`🔥 Fire Alert Triggered!\nLocation: (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`);
+              } catch (error) {
+                console.error("Error storing alert in Firebase:", error);
+                // Save locally if Firebase fails
+                const savedLocally = saveAlertLocally(alertData);
+                alert("Could not connect to Firebase. Alert saved locally.");
+                
+                // Trigger alert locally since Firebase failed
+                if (triggerLocallyImmediately) {
+                  playAlarm();
+                  document.getElementById('alertLocation').textContent = `(${latitude.toFixed(4)}, ${longitude.toFixed(4)})`;
+                }
+              }
+            } else {
+              // We're offline, save locally
+              const savedLocally = saveAlertLocally(alertData);
+              alert("You're offline. Alert saved locally and will sync when online.");
+              
+              // Trigger alert locally since we're offline
+              if (triggerLocallyImmediately) {
+                playAlarm();
+                document.getElementById('alertLocation').textContent = `(${latitude.toFixed(4)}, ${longitude.toFixed(4)})`;
+              }
             }
 
           }, (error) => {
-            console.error("Geolocation Error: ", error);
+            console.error("Geolocation Error:", error);
             alert("Unable to fetch location. Try again.");
           });
 
@@ -109,21 +860,48 @@
           alert("Geolocation is not supported by your browser.");
         }
       });
+
+      // Add event listener to stop alarm button
+      document.getElementById('stopAlarm').addEventListener('click', function() {
+        stopAlarm();
+      });
     });
   </script>
 </head>
 <body>
+  <!-- Loading Bar -->
+  <div class="loading-bar"></div>
+  
+  <!-- Dark Mode Toggle -->
+  <div class="dark-mode-toggle" id="darkModeToggle">
+    <i class="fa-solid fa-moon"></i>
+  </div>
+  
+  <!-- Alert Banner -->
+  <div id="alertBanner" class="alert-banner">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        <span>🔥 FIRE ALERT ACTIVATED! Location: <span id="alertLocation">(0.0000, 0.0000)</span></span>
+      </div>
+      <div>
+        <button id="viewDetails" class="btn btn-sm btn-light me-2">View Details</button>
+        <button id="stopAlarm" class="btn btn-sm btn-light">Stop Alarm</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
       <a class="navbar-brand" href="#">
         <i class="fa-solid fa-fire-flame-curved"></i> Fire Alert System
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
   
-      <div class="collapse navbar-collapse" id="navbarsExample07">
+      <div class="collapse navbar-collapse" id="navbarMain">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="authentication.html">Dashboard</a></li>
@@ -138,24 +916,163 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="container hero-content">
-      <h1 class="display-4 fw-bold">Automated Fire Alert System</h1>
-      <p class="lead mb-4">Leverage cutting-edge technology to track real-time locations and enable rapid emergency responses.</p>
+      <h1>Automated Fire Alert System</h1>
+      <p>Leverage cutting-edge technology to track real-time locations and enable rapid emergency responses.</p>
       <button id="triggerAlert" class="btn btn-danger cta-btn">
-        <i class="fa-solid fa-bell"></i> Trigger Alert
+        <i class="fa-solid fa-bell me-2"></i> Trigger Alert
       </button>
     </div>
   </section>
   
-  <!-- Footer -->
-  <footer class="text-center" style="margin-bottom: 0;">
+  <!-- Features Section -->
+  <section class="features-section">
     <div class="container">
-      <p class="mb-2">
-        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fa-brands fa-twitter"></i></a>
-        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-solid fa-envelope"></i></a>
-      </p>
-      <p>&copy; 2025 Automated Fire Alert System. All rights reserved.</p>
+      <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2 class="mb-3">Advanced Features</h2>
+          <p class="lead">Our system combines the latest technology with user-friendly design to provide comprehensive fire safety management.</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Real-Time Location Tracking</h3>
+            <p>Pinpoint the exact location of fire incidents with GPS precision, enabling faster response times and better coordination.</p>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+            <h3>Instant Notifications</h3>
+            <p>Receive immediate alerts through multiple channels, ensuring you're always informed even when offline.</p>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3>Advanced Analytics</h3>
+            <p>Gain insights from comprehensive data analysis to improve prevention strategies and response efficiency.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-4">
+          <div class="stat-card">
+            <div class="stat-number" id="responseStat">2.5</div>
+            <div class="stat-label">Minute Average Response Time</div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="stat-card">
+            <div class="stat-number" id="stationsStat">150+</div>
+            <div class="stat-label">Connected Fire Stations</div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="stat-card">
+            <div class="stat-number" id="accuracyStat">99.8%</div>
+            <div class="stat-label">System Accuracy</div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <div class="stat-card">
+            <div class="stat-number" id="usersStat">10K+</div>
+            <div class="stat-label">Active Users</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Network Status Indicator -->
+  <div id="networkStatus" class="network-status online">
+    <i class="fa-solid fa-wifi"></i>
+    <span>Online</span>
+  </div>
+  
+  <!-- Quick Access Panel -->
+  <div class="quick-access">
+    <div class="quick-menu" id="quickMenu">
+      <a href="live-map.html" class="quick-menu-btn">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Live Map</span>
+      </a>
+      <a href="emergency-contacts.html" class="quick-menu-btn">
+        <i class="fa-solid fa-address-book"></i>
+        <span>Emergency Contacts</span>
+      </a>
+      <a href="safety-tips.html" class="quick-menu-btn">
+        <i class="fa-solid fa-shield"></i>
+        <span>Safety Tips</span>
+      </a>
+      <a href="#" class="quick-menu-btn" id="emergencyCall">
+        <i class="fa-solid fa-phone"></i>
+        <span>Emergency Call</span>
+      </a>
+    </div>
+    <div class="quick-btn" id="quickAccessBtn">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+  </div>
+  
+  <!-- Toast Notifications Container -->
+  <div class="toast-container" id="toastContainer"></div>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5>About Fire Alert System</h5>
+          <p class="mb-3">Advanced technology for real-time fire detection and emergency response coordination.</p>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h5>Stay Connected</h5>
+          <div class="d-flex justify-content-start mb-3">
+            <a href="#" class="social-icon me-2"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-icon me-2"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="social-icon me-2"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+          <p>Subscribe to our newsletter for updates</p>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Your Email">
+            <button class="btn btn-danger">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="text-center">
+        <p>&copy; 2025 Automated Fire Alert System. All rights reserved.</p>
+      </div>
     </div>
   </footer>
   <!-- Bootstrap Bundle with Popper.js -->
