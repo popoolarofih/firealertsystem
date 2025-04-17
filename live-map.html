@@ -42,8 +42,22 @@
     .alert-item:last-child {
       border-bottom: none;
     }
+    .alert-buttons {
+      margin-top: 10px;
+    }
     .alert-buttons button {
       margin-right: 5px;
+    }
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .delete-btn:hover {
+      background-color: #c82333;
     }
   </style>
 
@@ -128,22 +142,35 @@
               var alertKey = change.doc.id;
               addAlertToMap(alertData, alertKey);
             }
-            // Optionally handle 'modified' or 'removed' docs:
-            // else if (change.type === "modified") { ... }
-            // else if (change.type === "removed") { ... }
+            else if (change.type === "modified") {
+              var alertData = change.doc.data();
+              var alertKey = change.doc.id;
+              // Update the marker or info window if needed
+              if (alertMarkers[alertKey]) {
+                alertMarkers[alertKey].setMap(null); // Remove old marker
+                delete alertMarkers[alertKey]; // Remove from markers list
+                addAlertToMap(alertData, alertKey); // Add updated marker
+              }
+            } else if (change.type === "removed") {
+              var alertKey = change.doc.id;
+              if (alertMarkers[alertKey]) {
+                alertMarkers[alertKey].setMap(null); // Remove marker from map
+                delete alertMarkers[alertKey]; // Remove from markers list
+                delete infoWindows[alertKey]; // Remove info window reference
+              }
+              
+              // Remove from sidebar
+              var alertItem = document.getElementById("alert-" + alertKey);
+              if (alertItem) {
+                alertItem.remove();
+              }
+            }
           });
         });
     }
 
     // Create a marker and add the alert to the sidebar
     function addAlertToMap(alertData, alertKey) {
-      // We assume the doc looks like:
-      // location: {
-      //   latitude: 6.5404928,
-      //   longitude: 3.3357824,
-      //   timestamp: "2025-03-12T15:56:37.003Z"
-      //   // ... possibly other fields ...
-      // }
       var locationObj = alertData.location || {};
       var latVal = locationObj.latitude || 0;
       var lngVal = locationObj.longitude || 0;
@@ -193,7 +220,6 @@
       `;
     }
 
-    // Add alert details to the sidebar
     function addAlertToSidebar(alertData, alertKey) {
       var locationObj = alertData.location || {};
       var latVal = locationObj.latitude || "N/A";
@@ -210,15 +236,48 @@
         Latitude: ${latVal}<br>
         Longitude: ${lngVal}<br>
         Timestamp: ${timeVal}
+        <div class="alert-buttons">
+          <button class="delete-btn" onclick="deleteAlert('${alertKey}')">Delete</button>
+        </div>
       `;
       alertList.appendChild(alertItem);
     }
+    
+    // Function to delete an alert
+    function deleteAlert(alertKey) {
+      if (confirm("Are you sure you want to delete this alert?")) {
+        // Delete from Firestore
+        firestore.collection("fire_alerts").doc(alertKey).delete()
+          .then(() => {
+            console.log("Alert deleted successfully from Firestore");
+            
+            // Remove marker from map
+            if (alertMarkers[alertKey]) {
+              alertMarkers[alertKey].setMap(null);
+              delete alertMarkers[alertKey];
+            }
+            
+            // Remove info window
+            if (infoWindows[alertKey]) {
+              delete infoWindows[alertKey];
+            }
+            
+            // Remove from sidebar
+            var alertItem = document.getElementById("alert-" + alertKey);
+            if (alertItem) {
+              alertItem.remove();
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting alert: ", error);
+            alert("Failed to delete alert: " + error.message);
+          });
+      }
+    }
 
-    // Expose initMap to the global scope for the Google Maps callback
     window.initMap = initMap;
   </script>
 
-  <!-- Google Maps API: Must load AFTER window.initMap is defined -->
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqBl2wJF_hzo_bGqesT8Ep94k9urE08Yk&callback=initMap">
   </script>
